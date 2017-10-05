@@ -16,23 +16,7 @@ class SmartyPants
     training_iterations.times do
       # Forward: (single neuron)
       output = evaluate(@training_set_inputs)
-      puts
-      puts 'OUTPUT:'
-      puts output
-      puts
       error = @training_set_outputs - output
-      puts 'ERROR:'
-      puts error
-      puts
-
-      puts 'sigmoid_derivative(output): '
-      puts sigmoid_derivative(output)
-      puts
-
-      puts 'error * sigmoid_derivative(output): '
-      puts error * sigmoid_derivative(output)
-
-
 
       # Back propogation:
       # Inputs which are zero do not cause changes to the weights
