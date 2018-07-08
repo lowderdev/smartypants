@@ -1,7 +1,7 @@
 # https://gist.github.com/miloharper/c5db6590f26d99ab2670#file-main-py
 # https://medium.com/technology-invention-and-more/how-to-build-a-simple-neural-network-in-9-lines-of-python-code-cc8f23647ca1
-from numpy import exp, array, random, dot
 
+from numpy import exp, array, random, dot
 
 class NeuralNetwork():
     def __init__(self):
