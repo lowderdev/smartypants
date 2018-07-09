@@ -9,6 +9,10 @@ require 'smartypants/neuron'
 require 'smartypants/net'
 
 module Smartypants
-  smarty = Net.new([4, 2])
-  smarty.train(1)
+  class Smarty
+    def train
+      smarty = Net.new([4, 2])
+      smarty.train(1)
+    end
+  end
 end
