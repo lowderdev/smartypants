@@ -1,4 +1,4 @@
-module SmartyPants
+module Smartypants
   class Layer
     attr_accessor :neurons
 

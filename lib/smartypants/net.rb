@@ -1,21 +1,23 @@
-module SmartyPants
+module Smartypants
   class Net
-    attr_accessor :layers, :output_layer, :training_inputs, :training_outputs
+    attr_accessor :epoch, :layers, :output_layer, :training_inputs, :training_outputs
 
     def initialize(layer_sizes)
-      @training_inputs = [[0, 0, 1]]#, [1, 1, 1], [1, 0, 1], [0, 1, 1]]
-      @training_outputs = [0] #, 1, 1, 0]
+      @epoch = 0
+      @training_inputs = [[0, 0, 1]] # [[0, 0, 1], [1, 1, 1], [1, 0, 1], [0, 1, 1]]
+      @training_outputs = [[0]] # [[0], [1], [1], [0]]
       @layers = generate_layers(layer_sizes)
-      @output_layer = Layer.new(@training_outputs.length, @layers.last.neurons.length)
+      @output_layer = Layer.new(@training_outputs.first.length, @layers.last.neurons.length)
       log_current_state
     end
 
     def train(epochs)
-      epochs.times do
-        @training_inputs.each do |training_input|
+      epochs.times do |epoch|
+        @epoch = epoch + 1
+        @training_inputs.each_with_index do |training_input, i|
           propagate(training_input)
           log_current_state
-          # back_propagate(@training_outputs)
+          back_propagate(@training_outputs[i])
           # update_weights(training_input)
 
           # error = @training_outputs - output
@@ -30,15 +32,15 @@ module SmartyPants
 
     private
       def log_current_state
+        puts
+        puts "====== Epoch #{@epoch} ======"
         @layers.each_with_index do |layer, i|
-          puts
           puts "Layer #{i}"
           layer.log_current_state
         end
         puts
         puts 'Output Layer'
         @output_layer.log_current_state
-        puts
       end
 
       def generate_layers(layer_sizes)
@@ -55,14 +57,14 @@ module SmartyPants
         @output_layer.compute(input_vector)
       end
 
-      # def back_propagate(expected_output)
-      #   @output_layer.compute_output_layer_error_vector(expected_output)
-      #   last_layer = @output_layer
-      #   @layers.reverse_each do |layer|
-      #     layer.compute_error_vector(last_layer)
-      #     last_layer = layer
-      #   end
-      # end
+      def back_propagate(expected_output)
+        @output_layer.compute_output_layer_error_vector(expected_output)
+        last_layer = @output_layer
+        @layers.reverse_each do |layer|
+          layer.compute_error_vector(last_layer)
+          last_layer = layer
+        end
+      end
 
       # def update_weights(training_input)
       #   inputs = training_input

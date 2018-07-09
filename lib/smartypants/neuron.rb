@@ -1,4 +1,4 @@
-module SmartyPants
+module Smartypants
   class Neuron
     attr_accessor :delta, :value, :weights, :zed
 
